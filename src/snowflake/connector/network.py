@@ -7,14 +7,12 @@ from __future__ import annotations
 
 import collections
 import contextlib
-import gzip
 import itertools
 import json
 import logging
 import time
 import traceback
 import uuid
-from io import BytesIO
 from threading import Lock
 from typing import TYPE_CHECKING
 
@@ -875,14 +873,27 @@ class SnowflakeRestful:
                 )
             cause = e.args[0]
             if no_retry:
-                self.log_and_handle_http_error_with_cause(e, full_url, method, retry_ctx.total_timeout, retry_ctx.cnt,
-                                                          conn, timed_out=False)
+                self.log_and_handle_http_error_with_cause(
+                    e,
+                    full_url,
+                    method,
+                    retry_ctx.total_timeout,
+                    retry_ctx.cnt,
+                    conn,
+                    timed_out=False,
+                )
                 return {}  # required for tests
             if retry_ctx.timeout is not None:
                 retry_ctx.timeout -= int(time.time() - start_request_thread)
                 if retry_ctx.timeout <= 0:
-                    self.log_and_handle_http_error_with_cause(e, full_url, method, retry_ctx.total_timeout,
-                                                              retry_ctx.cnt, conn)
+                    self.log_and_handle_http_error_with_cause(
+                        e,
+                        full_url,
+                        method,
+                        retry_ctx.total_timeout,
+                        retry_ctx.cnt,
+                        conn,
+                    )
                     return {}  # required for tests
             sleeping_time = retry_ctx.next_sleep()
             logger.debug(
@@ -907,14 +918,14 @@ class SnowflakeRestful:
             return {}
 
     def log_and_handle_http_error_with_cause(
-            self,
-            e: Exception,
-            full_url: str,
-            method: str,
-            retry_timeout: int,
-            retry_count: int,
-            conn: SnowflakeConnection,
-            timed_out: bool = True
+        self,
+        e: Exception,
+        full_url: str,
+        method: str,
+        retry_timeout: int,
+        retry_count: int,
+        conn: SnowflakeConnection,
+        timed_out: bool = True,
     ) -> None:
         cause = e.args[0]
         logger.error(cause, exc_info=True)
@@ -993,14 +1004,7 @@ class SnowflakeRestful:
             socket_timeout = DEFAULT_SOCKET_CONNECT_TIMEOUT
         logger.debug("socket timeout: %s", socket_timeout)
         try:
-            if not catch_okta_unauthorized_error and data and len(data) > 0:
-                gzdata = BytesIO()
-                gzip.GzipFile(fileobj=gzdata, mode="wb").write(data.encode("utf-8"))
-                gzdata.seek(0, 0)
-                headers["Content-Encoding"] = "gzip"
-                input_data = gzdata
-            else:
-                input_data = data
+            input_data = data
 
             download_start_time = get_time_millis()
             # socket timeout is constant. You should be able to receive
