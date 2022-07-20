@@ -88,20 +88,20 @@ from .time_util import (
     get_time_millis,
 )
 from .tool.probe_connection import probe_connection
-from .vendored import requests
-from .vendored.requests import Response, Session
-from .vendored.requests.adapters import HTTPAdapter
-from .vendored.requests.auth import AuthBase
-from .vendored.requests.exceptions import (
+import requests
+from requests import Response, Session
+from requests.adapters import HTTPAdapter
+from requests.auth import AuthBase
+from requests.exceptions import (
     ConnectionError,
     ConnectTimeout,
     InvalidProxyURL,
     ReadTimeout,
     SSLError,
 )
-from .vendored.requests.utils import prepend_scheme_if_needed, select_proxy
-from .vendored.urllib3.exceptions import ProtocolError
-from .vendored.urllib3.util.url import parse_url
+from requests.utils import prepend_scheme_if_needed, select_proxy
+from urllib3.exceptions import ProtocolError
+from urllib3.util.url import parse_url
 
 if TYPE_CHECKING:
     from .connection import SnowflakeConnection

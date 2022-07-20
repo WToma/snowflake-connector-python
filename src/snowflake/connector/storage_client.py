@@ -23,9 +23,9 @@ from .constants import HTTP_HEADER_CONTENT_ENCODING, FileHeader, ResultStatus
 from .encryption_util import EncryptionMetadata, SnowflakeEncryptionUtil
 from .errors import RequestExceedMaxRetryError
 from .file_util import SnowflakeFileUtil
-from .vendored import requests
-from .vendored.requests import ConnectionError, Timeout
-from .vendored.urllib3 import HTTPResponse
+import requests
+from requests import ConnectionError, Timeout
+from urllib3 import HTTPResponse
 
 if TYPE_CHECKING:  # pragma: no cover
     from .file_transfer_agent import SnowflakeFileMeta, StorageCredential

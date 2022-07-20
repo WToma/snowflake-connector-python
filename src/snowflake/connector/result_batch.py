@@ -28,7 +28,7 @@ from .options import installed_pandas, pandas
 from .options import pyarrow as pa
 from .secret_detector import SecretDetector
 from .time_util import DecorrelateJitterBackoff, TimerContextManager
-from .vendored import requests
+import requests
 
 logger = getLogger(__name__)
 
@@ -39,7 +39,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from .connection import SnowflakeConnection
     from .converter import SnowflakeConverterType
     from .cursor import ResultMetadata, SnowflakeCursor
-    from .vendored.requests import Response
+    from requests import Response
 
     if installed_pandas:
         DataType = pa.DataType
