@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 from .constants import ResultStatus
 from .storage_client import SnowflakeStorageClient
-from .vendored import requests
+import requests
 
 if TYPE_CHECKING:  # pragma: no cover
     from .file_transfer_agent import SnowflakeFileMeta

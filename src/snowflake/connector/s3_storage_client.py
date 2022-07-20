@@ -24,7 +24,7 @@ from .constants import (
 )
 from .encryption_util import EncryptionMetadata
 from .storage_client import SnowflakeStorageClient, remove_content_encoding
-from .vendored import requests
+import requests
 
 if TYPE_CHECKING:  # pragma: no cover
     from .file_transfer_agent import SnowflakeFileMeta, StorageCredential
